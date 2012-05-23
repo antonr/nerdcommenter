@@ -909,6 +909,8 @@ endfunction
 "   -firstLine/lastLine: the top and bottom lines to comment
 function s:CommentLinesToggle(forceNested, firstLine, lastLine)
     let currentLine = a:firstLine
+    let leftAlignIndx = s:LeftMostIndx(a:forceNested, 0, a:firstLine, a:lastLine)
+
     while currentLine <= a:lastLine
 
         " get the next line, check commentability and convert spaces to tabs
@@ -923,7 +925,8 @@ function s:CommentLinesToggle(forceNested, firstLine, lastLine)
                 let theLine = s:SwapOutterMultiPartDelimsForPlaceHolders(theLine)
             endif
 
-            let theLine = s:AddLeftDelim(s:Left({'space': 1}), theLine)
+            let theLine = s:AddLeftDelimAligned(s:Left({'space': 1}), theLine, leftAlignIndx)
+            "let theLine = s:AddLeftDelim(s:Left({'space': 1}), theLine)
             let theLine = s:AddRightDelim(s:Right({'space': 1}), theLine)
         endif
 
